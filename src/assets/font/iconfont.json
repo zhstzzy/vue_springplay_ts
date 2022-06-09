@@ -1,0 +1,86 @@
+{
+  "id": "3353592",
+  "name": "vuesportplay",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "947482",
+      "name": "商品",
+      "font_class": "product",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "1177735",
+      "name": "书",
+      "font_class": "book",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "3868287",
+      "name": "账号权限管理",
+      "font_class": "authority",
+      "unicode": "eb68",
+      "unicode_decimal": 60264
+    },
+    {
+      "icon_id": "5075242",
+      "name": "卡路里",
+      "font_class": "calorie",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "6489735",
+      "name": "食物",
+      "font_class": "food",
+      "unicode": "e691",
+      "unicode_decimal": 59025
+    },
+    {
+      "icon_id": "14975824",
+      "name": "运动",
+      "font_class": "sport",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "15388515",
+      "name": "管理员",
+      "font_class": "admin",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "1010171",
+      "name": "验证码",
+      "font_class": "code",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "4552970",
+      "name": "邮箱",
+      "font_class": "email",
+      "unicode": "e908",
+      "unicode_decimal": 59656
+    },
+    {
+      "icon_id": "77190",
+      "name": "密码",
+      "font_class": "password",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "10617577",
+      "name": "登录-用户",
+      "font_class": "user",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    }
+  ]
+}
