@@ -15,15 +15,17 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref} from "vue";
+import { defineComponent, ref } from "vue";
 // 局部注册组件，需要单独引用组件样式
 // 只提供局部引用的方式，不再采用插件形式，方便按需加载，减少主包大小
-import SlideVerify, {SlideVerifyInstance} from "vue3-slide-verify";
+import SlideVerify, { SlideVerifyInstance } from "vue3-slide-verify";
 import "vue3-slide-verify/dist/style.css";
 
 export default defineComponent({
-  name: "SlideVerify",
-  components: {SlideVerify},
+  // eslint-disable-next-line vue/multi-word-component-names
+  name:"Test",
+  components: { SlideVerify },
+
   setup() {
     const msg = ref("");
     const block = ref<SlideVerifyInstance>();
@@ -66,7 +68,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped>
-
-</style>
