@@ -106,7 +106,6 @@ export default defineComponent({
       console.log(event)
       event.target.blur();
       check();
-      // document.getElementsByClassName("login_form")[ind]
     };
     const gotoRegister = () => {
       proxy.$router.push({path: "/register"});
@@ -141,7 +140,7 @@ export default defineComponent({
     const onSuccess = (times: number) => {
       msg.value = `验证成功, 耗时${(times / 1000).toFixed(1)}s`;
       msgType.value = "success"
-      setTimeout(login, 500);
+      setTimeout(login, 200);
     };
 
     const onFail = () => {
@@ -175,7 +174,7 @@ export default defineComponent({
       dialogVisible,
       check,
       text: "向右滑动->",
-      accuracy: 1,
+      accuracy: 3,
       onAgain,
       onSuccess,
       onFail,

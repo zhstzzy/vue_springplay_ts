@@ -60,16 +60,16 @@ export default defineComponent({
       if (value === "") {
         callback(new Error("请输入用户名"));
       } else {
-        const {data: res} = await proxy.$http.post("/demo/api/findUsername", {params: {username: value}});
+        const {data: res} = await proxy.$http.get("/user", {params: {username: value}});
         console.log(res);
-        if (res.code !== 200) {
-          callback(res.data.message);
+        if (res.code === 200) {
+          callback(res.message);
         } else {
           callback();
         }
       }
     }
-    var validatePass = (rule: any, value: any, callback: any) => {
+    const validatePass = (rule: any, value: any, callback: any) => {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
@@ -79,7 +79,7 @@ export default defineComponent({
         callback();
       }
     };
-    var validatePass2 = (rule: any, value: any, callback: any) => {
+    const validatePass2 = (rule: any, value: any, callback: any) => {
       if (value === "") {
         callback(new Error("请再次输入密码"));
       } else if (value !== registerFormRef.value.password) {
@@ -120,12 +120,15 @@ export default defineComponent({
         {required: true, message: "请输入邮箱验证码", trigger: "blur"},
         {min: 6, message: "验证码不足6位", trigger: "blur"},
       ],
-    })
+    });
 
     const gotoLogin = () => {
       proxy.$router.push({path: "/login"});
-    }
+    };
 
+    const sendMail=()=>{
+
+    };
     return{
       registerFormRef,
       registerForm,

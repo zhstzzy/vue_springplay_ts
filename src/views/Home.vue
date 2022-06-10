@@ -10,7 +10,7 @@
           <el-dropdown @command="handleCommand">
           <span class="username">
             {{ username }}
-            <el-icon class="el-icon--right"><arrow-down/></el-icon>
+            <el-icon class="el-icon--right"><!--<arrow-down/--></el-icon>
           </span>
             <template #dropdown>
               <el-dropdown-menu>
@@ -59,7 +59,7 @@ export default defineComponent({
 
     let isCollapse = false;
     const username = ref("");
-    let menuList = reactive([]);
+    let menuList = ref([]);
     let activePath = "/user";
     const handleCommand = (command: any) => {
       if (command === 'b') {
@@ -71,10 +71,10 @@ export default defineComponent({
       proxy.$router.push("/login");
     };
     const getMenuList = async () => {
-      const {data: res} = proxy.$http.get("/menus");
-      console.log(res);
+      const {data: res} = await proxy.$http.get("/menus");
+      console.log(res)
       if (res.code !== 200) return proxy.$message.error({showClose: true, message: res.message});
-      menuList=res.data.menus;
+      menuList.value=res.data.menus
     };
     const toggleCollapse = () => {
       isCollapse = !isCollapse;
@@ -85,7 +85,7 @@ export default defineComponent({
       activePath = path;
     };
     onMounted(() => {
-      username.value = sessionStorage.get("user");
+      username.value = sessionStorage.get("username");
       // 查询menuList
       getMenuList();
       activePath = sessionStorage.get("activePath");

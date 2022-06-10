@@ -92,7 +92,7 @@ export default defineComponent({
       total: 0,//总记录数
       username: "",//用户名
     });
-    let userList = reactive([]);
+    let userList = ref([]);
 
     // 获取全部用户
     const getUserList = async () => {
@@ -104,7 +104,7 @@ export default defineComponent({
         pagination.pageSize = res.data.size;
         pagination.currentPage = res.data.current;
         pagination.total = res.data.total;
-        userList = res.data.records;
+        userList.value = res.data.records;
       }
     };
     //切换页码
