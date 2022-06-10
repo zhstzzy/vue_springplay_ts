@@ -3,7 +3,7 @@
  */
 export const sessionStorage = {
     //存储
-    set(key: string, value: object) {
+    set(key: string, value: any) {
         window.sessionStorage.setItem(key, JSON.stringify(value))
     },
     //取出数据
