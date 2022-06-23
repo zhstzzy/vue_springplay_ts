@@ -17,7 +17,7 @@
           <!-- 密码 -->
           <el-form-item label="密码" prop="password">
             <el-input v-model="loginForm.password" prefix-icon="iconfont icon-password" type="password" show-password
-                      @keyup.enter="handleEnter($event)" ></el-input>
+                      @keyup.enter="handleEnter($event)"></el-input>
           </el-form-item>
           <!-- 按钮 -->
           <el-form-item>
@@ -31,13 +31,14 @@
         </el-form>
       </div>
     </div>
-    <el-dialog title="请完成安全验证" v-model="dialogVisible" width="360px" center v-loading="loading" @closed="dialogClosed">
+    <el-dialog title="请完成安全验证" v-model="dialogVisible" width="360px" center v-loading="true" @closed="dialogClosed">
       <div class="verification-slide">
         <el-alert :title="msg" :type="msgType" effect="dark"/>
         <slide-verify
             ref="block"
             :slider-text="text"
             :accuracy="accuracy"
+            :imgs="imgs"
             @again="onAgain"
             @success="onSuccess"
             @fail="onFail"
@@ -56,6 +57,7 @@ import {sessionStorage} from "@/hook/sessionStorage";
 // 滑块验证
 import SlideVerify, {SlideVerifyInstance} from "vue3-slide-verify";
 import "vue3-slide-verify/dist/style.css";
+import store from "@/store";
 
 
 export default defineComponent({
@@ -73,7 +75,7 @@ export default defineComponent({
     const loginRules = reactive({
       username: [
         {required: true, message: "用户名为必填项", trigger: "blur"},
-        {min: 5, max: 12, message: "用户名需要在 5 ~ 12 个字符", trigger: "blur"},
+        {min: 4, max: 12, message: "用户名需要在 4 ~ 12 个字符", trigger: "blur"},
       ],
       password: [
         {required: true, message: "密码为必填项", trigger: "blur"},
@@ -82,15 +84,21 @@ export default defineComponent({
     });
 
     const login = () => {
-      dialogVisible.value = false;
       loginFormRef.value.validate(async (valid: any) => {
         if (valid) {
           const {data: res} = await proxy.$http.post("/login", loginForm);
-          console.log(res);
-          if (res.code == 200) {
+          // console.log(res);
+          if (res.code !== 400) {
             proxy.$message.success(res.message);
-            proxy.$router.push({path: "/home"});
-            sessionStorage.set("username", res.data.username);
+            // sessionStorage.set("username", res.data.username);
+            store.commit("setUserInfo", res.data)
+            if (res.data.role.indexOf("管理员") != -1) {
+              proxy.$router.push({path: "/user"});
+              store.commit("setActivePath","/user")
+            } else {
+              proxy.$router.push({path: "/introduction"});
+              store.commit("setActivePath","/introduction")
+            }
           } else {
             proxy.$message.error(res.message);
             loginFormRef.value.resetFields();
@@ -102,8 +110,8 @@ export default defineComponent({
         }
       })
     };
-    const handleEnter = (event:any) =>{
-      console.log(event)
+    const handleEnter = (event: any) => {
+      // console.log(event)
       event.target.blur();
       check();
     };
@@ -116,18 +124,15 @@ export default defineComponent({
     const msgType = ref("")
     const block = ref<SlideVerifyInstance>();
     const dialogVisible = ref(false)
-
+    const imgs = [
+      require('@/assets/silder/slider_bg_1.jpg'),
+      require('@/assets/silder/slider_bg_2.jpg'),
+      require('@/assets/silder/slider_bg_3.jpg'),
+      require('@/assets/silder/slider_bg_4.jpg'),
+    ];
     //显示弹窗
     const check = () => {
-      loginFormRef.value.validate(async (valid: any) => {
-        if (valid) {
-          dialogVisible.value = true;
-        } else {
-          proxy.$message.error("请输入用户名或密码");
-          console.log('error submit!!')
-          return false
-        }
-      });
+      dialogVisible.value = true;
     }
 
     const onAgain = () => {
@@ -140,7 +145,13 @@ export default defineComponent({
     const onSuccess = (times: number) => {
       msg.value = `验证成功, 耗时${(times / 1000).toFixed(1)}s`;
       msgType.value = "success"
-      setTimeout(login, 200);
+      setTimeout(() => {
+        login();
+        dialogVisible.value = false;
+        block.value?.refresh();
+        msg.value = "";
+        msgType.value = "";
+      }, 10);
     };
 
     const onFail = () => {
@@ -152,7 +163,7 @@ export default defineComponent({
       msg.value = "点击了刷新小图标";
       msgType.value = "info";
     };
-    const dialogClosed = () =>{
+    const dialogClosed = () => {
       // 刷新
       block.value?.refresh();
       msg.value = "";
@@ -173,8 +184,9 @@ export default defineComponent({
       msgType,
       dialogVisible,
       check,
+      imgs,
       text: "向右滑动->",
-      accuracy: 3,
+      accuracy: 2,
       onAgain,
       onSuccess,
       onFail,

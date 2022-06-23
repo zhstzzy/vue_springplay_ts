@@ -2,19 +2,16 @@
   <div></div>
 </template>
 
-<script>
-export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: "Error",
-  created() {
-    this.$alert('登录信息失效！', '提示', {
-      confirmButtonText: '确定',
-    }).then((response) => {
-      localStorage.removeItem("user");
-      this.$router.replace({path: '/login'})
-    });
-  }
-}
+<script lang="ts" setup>
+import useCurrentInstance from "@/hook/useCurrentInstance";
+
+const {proxy} = useCurrentInstance();
+proxy.$alert('登录信息失效！', '提示', {
+  confirmButtonText: '确定',
+}).then((response:any) => {
+  sessionStorage.clear();
+  proxy.$router.replace({path: '/login'})
+});
 </script>
 
 <style scoped>

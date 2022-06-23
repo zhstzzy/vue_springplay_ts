@@ -4,13 +4,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from "vue";
+<script lang="ts" setup>
+import useCurrentInstance from "@/hook/useCurrentInstance";
+import {onMounted} from "vue";
+import store from "@/store";
 
-export default defineComponent({
-  // eslint-disable-next-line vue/multi-word-component-names
-  name:"welcome",
-});
+const {proxy} = useCurrentInstance();
+onMounted(()=>{
+  store.commit("setActivePath",proxy.$router.name);
+})
 </script>
 
 <style lang="less" scoped>
